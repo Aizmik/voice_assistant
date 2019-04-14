@@ -15,10 +15,17 @@ clf = GaussianNB()
 data = pd.read_excel('intents.xlsx')
 data['question'] = data['question'].apply(lambda x: word_tokenize(x))
 X = []
+
+print(data['question'])
+print(data['class'])
+
 for quest in data['question']:
     vector = model[quest[0]]
-    for word in quest[:0]:
-        vector *= model[word]
+    for word in quest[1:]:
+        try:
+            vector *= model[word]
+        except:
+            pass    
     X.append(vector)
         
 
@@ -27,6 +34,7 @@ y = np.array(data['class'])
 X = np.array(X)
 
 clf.fit(X,y)
+
 
 with open('GaussianNB_model.pkl', 'wb') as fid:
     pickle.dump(clf, fid)  
