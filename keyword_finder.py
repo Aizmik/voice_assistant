@@ -28,9 +28,3 @@ def find_day(sentence):
 
     return times
 
-
-with open('sample.txt', 'r') as f:
-    for line in f.readlines():
-        print(find_day(line))
-
-

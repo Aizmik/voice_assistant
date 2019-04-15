@@ -26,5 +26,5 @@ model = FastText(size=9, window=2, min_count=1)
 model.build_vocab(sentences=data)
 model.train(sentences=data, total_examples=len(data), epochs=10)
 
-model.save('fasttext.model')
+model.save(r'models\fasttext.model')
 

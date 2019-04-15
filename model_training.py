@@ -8,16 +8,14 @@ from sklearn.naive_bayes import GaussianNB
 from gensim.models import FastText
 
 
-model = FastText.load('fasttext.model')
+model = FastText.load(r'models\fasttext.model')
 
 clf = GaussianNB()
 
-data = pd.read_excel('intents.xlsx')
+data = pd.read_excel(r'data\intents.xlsx')
 data['question'] = data['question'].apply(lambda x: word_tokenize(x))
 X = []
 
-print(data['question'])
-print(data['class'])
 
 for quest in data['question']:
     vector = model[quest[0]]
@@ -36,5 +34,5 @@ X = np.array(X)
 clf.fit(X,y)
 
 
-with open('GaussianNB_model.pkl', 'wb') as fid:
+with open(r'models\GaussianNB_model.pkl', 'wb') as fid:
     pickle.dump(clf, fid)  
