@@ -1,11 +1,9 @@
-import warnings
-warnings.filterwarnings(action='ignore', category=UserWarning, module='gensim')
 from nltk import word_tokenize
 from gensim.models import FastText
-import fasttext
 import pickle
 import pymorphy2
 import numpy as np
+
 
 def get_vector(sentence):
 
@@ -21,10 +19,11 @@ def get_vector(sentence):
                 vector = FT_model[word]
             else:
                 vector += FT_model[word]
-        except:
+        except(Exception):
             pass
 
     return vector
+
 
 def get_bow_vector(sentence):
     morph = pymorphy2.MorphAnalyzer()
@@ -33,12 +32,12 @@ def get_bow_vector(sentence):
     with open(r'models\bag_of_words.pickle', 'rb') as f:
         bow = pickle.load(f)
 
-
     for word in sentence:
         word = morph.parse(word)[0].normal_form
         try:
             bow[word] += 1
-        except:
-            if word.isdigit == False: print(word)
+        except(Exception):
+            if word.isdigit is False:
+                print(word)
 
     return(np.array(list(bow.values())).astype(float))

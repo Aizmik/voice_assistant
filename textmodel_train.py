@@ -1,7 +1,5 @@
 import json
 import pickle
-import warnings
-warnings.filterwarnings(action='ignore', category=UserWarning, module='gensim')
 from gensim.models import FastText
 from nltk.tokenize import RegexpTokenizer
 
@@ -14,7 +12,7 @@ def data():
     corpus = []
     for phraze in data:
         corpus.append(tokenizer.tokenize(phraze['text'].lower()))
-           
+
     return corpus
 
 
@@ -31,7 +29,7 @@ def train_bow(corpus):
     for sentence in corpus:
         for word in sentence:
             if word not in bag.keys():
-                bag[word] = 0 
+                bag[word] = 0
 
     with open(r'models\bag_of_words.pickle', 'wb') as f:
         pickle.dump(bag, f)
