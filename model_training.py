@@ -2,10 +2,11 @@ import pickle
 import numpy as np
 import pandas as pd
 from sklearn.naive_bayes import GaussianNB
+from sklearn.naive_bayes import MultinomialNB
 from training_functions import get_bow_vector
 
 
-clf = GaussianNB()
+clf = MultinomialNB()
 data = pd.read_excel(r'data\intents.xlsx')
 
 X = []
@@ -18,5 +19,5 @@ X = np.array(X)
 clf.fit(X, y)
 
 
-with open(r'models\GaussianNB_model.pkl', 'wb') as fid:
+with open(r'models\MultinominalNB_model.pkl', 'wb') as fid:
     pickle.dump(clf, fid)
