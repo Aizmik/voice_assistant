@@ -16,26 +16,30 @@ def get_weather(when=['сейчас'], location=['СанктПетербурге
     if location:
         url += city[location[0]]
 
+    if not location:
+        location = ['СанктПетербурге']
+
     page = r.urlopen(url)
     soup = bs4.BeautifulSoup(page, 'html.parser')
 
-    if not when == ['сейчас']:
+    if not when == ['сейчас'] and when:
         for forecast in soup.select('a.link'):
+            day = ''
+            cast = bs4.BeautifulSoup(str(forecast), 'html.parser')
             try:
-                cast = bs4.BeautifulSoup(str(forecast), 'html.parser')
                 day = cast.select('div.forecast-briefly__name')[0].text
-                if day == dow[when]:
-                    temp = cast.select('div.temp > span.temp__value')[0].text
-                    condition = cast.select('div.forecast-briefly__condition')[0].text
-
-                    return 'В ' + str(location[0]) + ' ' + str(when)\
-                           + ', ' + temp + ', ' + condition
-            except(Exception):
+            except Exception:
                 pass
 
+            if day == dow[when[0]]:
+                temp = cast.select('div.temp > span.temp__value')[0].text
+                condition = cast.select('div.forecast-briefly__condition')[0].text
+
+                return 'В ' + str(location[0]) + ', в ' + day \
+                       + ', ' + temp + ', ' + condition
+
     when = ['сейчас']
-    if not location:
-        location = ['СанктПетербурге']
+
     return 'В ' + str(location[0]) + ' ' + str(when[0])\
            + ' ' + str(soup.select('span.temp__value')[0].text)\
            + ', ' + str(soup.select('div.link__condition')[0].text)\
