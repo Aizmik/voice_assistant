@@ -1,9 +1,10 @@
 import urllib.request as r
 import re
 from bs4 import BeautifulSoup
+import pandas as pd
 
 
-def get_keywords(url, page_number):
+def get_keywords(url, page_number, df=None, i=None):
     try:
         page = r.urlopen(url)
         soup = BeautifulSoup(page, 'html.parser')
@@ -15,19 +16,25 @@ def get_keywords(url, page_number):
         keywords = []
         for ul in soup.select('ul.post__hubs'):
             keys = re.findall(r'>([A-ZА-Я]\w*[ *\w|\S*]*)</a>', str(ul))
-            keywords.append(keys.copy())
+            keywords.append(','.join(keys))
 
-        with open('data.txt', 'a', encoding='utf-8') as f:
-            for title in titles:
-                for key in keywords[0]:
-                    f.write(title + '\t' + key + '\n')
-                keywords.pop(0)
+        for title, key in zip(titles, keywords):
+            print(f'{title} - {key}')
+            interested = input()
+            df.loc[i] = [title, key, interested]
+            i += 1
 
         page_number += 1
-        get_keywords('https://habr.com/ru/all/page' + str(page_number), page_number)
+
+        page_url = 'https://habr.com/ru/all/page' + str(page_number)
+        df.to_csv('my_rates.csv', encoding='UTF-8', index=False)
+        get_keywords(page_url, page_number, df, i)
 
     except Exception as e:
         print(e)
 
 
-get_keywords('https://habr.com/ru/all/', 1)
+df = pd.DataFrame(columns=['title', 'keys', 'target'])
+i = 0
+
+get_keywords('https://habr.com/ru/all/', 1, df, i)
