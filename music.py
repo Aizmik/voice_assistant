@@ -1,6 +1,8 @@
 from os import listdir
 import re
 from playsound import playsound
+import winsound
+import time
 
 
 def get_song(singer):
@@ -18,4 +20,8 @@ def get_singer(sentence):
 
 def play(sentence):
     for song in get_song(get_singer(sentence)):
-        playsound('music\\' + song)
+        print('music\\' + song)
+        winsound.PlaySound('music\\' + song, winsound.SND_ASYNC | winsound.SND_FILENAME)
+
+def stop():
+    winsound.PlaySound(None, winsound.SND_ASYNC)
