@@ -15,10 +15,12 @@ def get_vector(sentence):
     for word in sentence:
         word = morph.parse(word)[0].normal_form
         try:
-            if not vector:
-                vector = FT_model[word]
-            else:
+            if vector:
                 vector += FT_model[word]
+                continue
+
+            vector = FT_model[word]
+
         except(Exception):
             pass
 
