@@ -6,7 +6,6 @@ import numpy as np
 
 
 def get_vector(sentence):
-
     FT_model = FastText.load(r'models\fasttext.model')
     sentence = word_tokenize(sentence)
     vector = []
@@ -39,7 +38,6 @@ def get_bow_vector(sentence):
         try:
             bow[word] += 1
         except(Exception):
-            if word.isdigit is False:
-                print(word)
+            pass
 
     return(np.array(list(bow.values())).astype(float))

@@ -16,8 +16,7 @@ def get_weather(when=['сейчас'], location=['СанктПетербурге
 
     if location:
         url += city[location[0]]
-
-    if not location:
+    else:
         location = ['СанктПетербурге']
 
     page = r.urlopen(url)
