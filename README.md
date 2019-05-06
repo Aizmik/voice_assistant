@@ -1,5 +1,5 @@
 # voice_assistant 
-My own implementation of applications as: Alisa, Siri, etc... Yet with just command line input 
+My own implementation of applications as: Alice, Siri, etc... Yet with just command line input for now
 # What I learned:
 * How to classify sentences 
 * Implement BOW from scratch 
